@@ -31,7 +31,7 @@
     <properties>
         <kura.basedir>${project.basedir}/..</kura.basedir>
         <com.google.guava.version>32.1.1-jre</com.google.guava.version>
-        <io.netty.version>4.1.121.Final</io.netty.version>
+        <io.netty.version>4.1.127.Final</io.netty.version>
         <jakarta.activation-api.javax.version>1.2.2</jakarta.activation-api.javax.version>
         <jakarta.xml.bind-api.javax.version>2.3.3</jakarta.xml.bind-api.javax.version>
         <jaxb-osgi.javax.version>2.3.9</jaxb-osgi.javax.version>
