@@ -2,8 +2,8 @@ name: Kura SBOM upload
 
 on:
   schedule:
-    # At 00:00 on Saturday
-    - cron: "0 0 * * 6"
+    # At 04:52 on Saturday
+    - cron: "52 4 * * 6"
   workflow_dispatch:
     inputs:
       target_branch:
