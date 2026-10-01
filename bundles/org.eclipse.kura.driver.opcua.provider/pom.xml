@@ -35,9 +35,9 @@
         <jakarta.activation-api.javax.version>1.2.2</jakarta.activation-api.javax.version>
         <jakarta.xml.bind-api.javax.version>2.3.3</jakarta.xml.bind-api.javax.version>
         <jaxb-osgi.javax.version>2.3.9</jaxb-osgi.javax.version>
-        <org.eclipse.milo.version>0.6.8</org.eclipse.milo.version>
-        <com.digitalpetri.netty.netty-channel-fsm.version>0.8</com.digitalpetri.netty.netty-channel-fsm.version>
-        <com.digitalpetri.fsm.strict-machine.version>0.6</com.digitalpetri.fsm.strict-machine.version>
+        <org.eclipse.milo.version>0.6.16</org.eclipse.milo.version>
+        <com.digitalpetri.netty.netty-channel-fsm.version>0.9</com.digitalpetri.netty.netty-channel-fsm.version>
+        <com.digitalpetri.fsm.strict-machine.version>0.7</com.digitalpetri.fsm.strict-machine.version>
         <com.google.guava.failureaccess.version>1.0</com.google.guava.failureaccess.version>
         <org.bouncycastle.version>1.86</org.bouncycastle.version>
         <sonar.coverage.jacoco.xmlReportPaths>

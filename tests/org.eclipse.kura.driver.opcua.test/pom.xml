@@ -29,7 +29,7 @@
 
     <properties>
         <kura.basedir>${project.basedir}/../..</kura.basedir>
-        <org.eclipse.milo.version>0.6.4</org.eclipse.milo.version>
+        <org.eclipse.milo.version>0.6.16</org.eclipse.milo.version>
         <jakarta.activation-api.javax.version>1.2.2</jakarta.activation-api.javax.version>
         <jakarta.xml.bind-api.javax.version>2.3.3</jakarta.xml.bind-api.javax.version>
         <jaxb-osgi.javax.version>2.3.9</jaxb-osgi.javax.version>
