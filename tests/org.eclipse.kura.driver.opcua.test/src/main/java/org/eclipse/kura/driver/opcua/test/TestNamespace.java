@@ -275,16 +275,14 @@ public class TestNamespace extends ManagedNamespace {
     }
 
     @Override
-    protected Optional<MethodInvocationHandler> getInvocationHandler(NodeId objectId, NodeId methodId) {
+    protected MethodInvocationHandler getInvocationHandler(NodeId objectId, NodeId methodId) throws UaException {
         Optional<UaNode> node = getNodeManager().getNode(methodId);
 
-        return node.flatMap(n -> {
-            if (n instanceof UaMethodNode) {
-                return Optional.of(((UaMethodNode) n).getInvocationHandler());
-            } else {
-                return Optional.empty();
-            }
-        });
+        if (node.isPresent() && node.get() instanceof UaMethodNode) {
+            return ((UaMethodNode) node.get()).getInvocationHandler();
+        }
+
+        throw new UaException(StatusCodes.Bad_NodeIdUnknown);
     }
 
     @Override
