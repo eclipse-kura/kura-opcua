@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2017, 2023 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.channel.ChannelFlag;
 import org.eclipse.kura.channel.ChannelRecord;
@@ -103,8 +102,10 @@ public class OpcUaDriverTest {
 
         logger.info("starting test server with endpoint {}", endpointConfiguration.getEndpointUrl());
 
-        OpcUaServerConfig config = new OpcUaServerConfigBuilder().setApplicationUri("opcsvr")
-                .setApplicationName(LocalizedText.english("opcsvr")).setCertificateValidator(certificateValidator)
+        OpcUaServerConfig config = new OpcUaServerConfigBuilder()
+                .setApplicationUri("opcsvr")
+                .setApplicationName(LocalizedText.english("opcsvr"))
+                .setCertificateValidator(certificateValidator)
                 .setCertificateValidator(certificateValidator)
                 .setEndpoints(Collections.singleton(endpointConfiguration))
                 .build();
@@ -304,8 +305,8 @@ public class OpcUaDriverTest {
 
     @Test
     public void testByte() throws ConnectionException {
-        final EnumSet<DataType> applicableTypes = EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT,
-                DataType.DOUBLE);
+        final EnumSet<DataType> applicableTypes =
+                EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE);
 
         final String nodeId = "Byte";
         final VariableType opcuaType = VariableType.BYTE;
@@ -316,8 +317,8 @@ public class OpcUaDriverTest {
 
     @Test
     public void testUInt16() throws ConnectionException {
-        final EnumSet<DataType> applicableTypes = EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT,
-                DataType.DOUBLE);
+        final EnumSet<DataType> applicableTypes =
+                EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE);
 
         final String nodeId = "UInt16";
         final VariableType opcuaType = VariableType.UINT16;
@@ -332,10 +333,16 @@ public class OpcUaDriverTest {
         final VariableType opcuaType = VariableType.UINT32;
 
         testRead(nodeId, 0, EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE));
-        testReadWrite(nodeId, EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE), opcuaType,
-                0, 10, 20, ((int) Short.MAX_VALUE) * 2 + 1);
-        testReadWrite(nodeId, EnumSet.of(DataType.LONG, DataType.DOUBLE), opcuaType,
-                ((long) Integer.MAX_VALUE) * 2 + 1);
+        testReadWrite(
+                nodeId,
+                EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE),
+                opcuaType,
+                0,
+                10,
+                20,
+                ((int) Short.MAX_VALUE) * 2 + 1);
+        testReadWrite(
+                nodeId, EnumSet.of(DataType.LONG, DataType.DOUBLE), opcuaType, ((long) Integer.MAX_VALUE) * 2 + 1);
     }
 
     @Test
@@ -344,17 +351,23 @@ public class OpcUaDriverTest {
         final VariableType opcuaType = VariableType.UINT64;
 
         testRead(nodeId, 0, EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE));
-        testReadWrite(nodeId, EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE), opcuaType,
-                0, 10, 20, ((int) Short.MAX_VALUE) * 2 + 1);
-        testReadWrite(nodeId, EnumSet.of(DataType.LONG, DataType.DOUBLE), opcuaType,
-                ((long) Integer.MAX_VALUE) * 2 + 1);
+        testReadWrite(
+                nodeId,
+                EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE),
+                opcuaType,
+                0,
+                10,
+                20,
+                ((int) Short.MAX_VALUE) * 2 + 1);
+        testReadWrite(
+                nodeId, EnumSet.of(DataType.LONG, DataType.DOUBLE), opcuaType, ((long) Integer.MAX_VALUE) * 2 + 1);
         testReadWrite(nodeId, EnumSet.of(DataType.LONG, DataType.DOUBLE), opcuaType, Long.MAX_VALUE);
     }
 
     @Test
     public void testSByte() throws ConnectionException {
-        final EnumSet<DataType> applicableTypes = EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT,
-                DataType.DOUBLE);
+        final EnumSet<DataType> applicableTypes =
+                EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE);
 
         final String nodeId = "SByte";
         final VariableType opcuaType = VariableType.SBYTE;
@@ -365,8 +378,8 @@ public class OpcUaDriverTest {
 
     @Test
     public void testInt16() throws ConnectionException {
-        final EnumSet<DataType> applicableTypes = EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT,
-                DataType.DOUBLE);
+        final EnumSet<DataType> applicableTypes =
+                EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE);
 
         final String nodeId = "Int16";
         final VariableType opcuaType = VariableType.INT16;
@@ -377,14 +390,25 @@ public class OpcUaDriverTest {
 
     @Test
     public void testInt32() throws ConnectionException {
-        final EnumSet<DataType> applicableTypes = EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT,
-                DataType.DOUBLE);
+        final EnumSet<DataType> applicableTypes =
+                EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE);
         final String nodeId = "Int32";
         final VariableType opcuaType = VariableType.INT32;
 
         testRead(nodeId, 0, applicableTypes);
-        testReadWrite(nodeId, applicableTypes, opcuaType, 0, 10, 20, Short.MAX_VALUE, Integer.MAX_VALUE, -10, -20,
-                -Short.MAX_VALUE, -Integer.MAX_VALUE);
+        testReadWrite(
+                nodeId,
+                applicableTypes,
+                opcuaType,
+                0,
+                10,
+                20,
+                Short.MAX_VALUE,
+                Integer.MAX_VALUE,
+                -10,
+                -20,
+                -Short.MAX_VALUE,
+                -Integer.MAX_VALUE);
     }
 
     @Test
@@ -393,8 +417,19 @@ public class OpcUaDriverTest {
         final VariableType opcuaType = VariableType.INT64;
 
         testRead(nodeId, 0, EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE));
-        testReadWrite(nodeId, EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE), opcuaType,
-                0, 10, 20, Short.MAX_VALUE, Integer.MAX_VALUE, -10, -20, -Short.MAX_VALUE, -Integer.MAX_VALUE);
+        testReadWrite(
+                nodeId,
+                EnumSet.of(DataType.INTEGER, DataType.LONG, DataType.FLOAT, DataType.DOUBLE),
+                opcuaType,
+                0,
+                10,
+                20,
+                Short.MAX_VALUE,
+                Integer.MAX_VALUE,
+                -10,
+                -20,
+                -Short.MAX_VALUE,
+                -Integer.MAX_VALUE);
         testReadWrite(nodeId, EnumSet.of(DataType.LONG, DataType.DOUBLE), opcuaType, Long.MAX_VALUE, -Long.MAX_VALUE);
     }
 
@@ -404,8 +439,21 @@ public class OpcUaDriverTest {
         final VariableType opcuaType = VariableType.FLOAT;
 
         testRead(nodeId, 0.0f, EnumSet.of(DataType.FLOAT));
-        testReadWrite(nodeId, EnumSet.of(DataType.FLOAT), opcuaType, 0.0f, Float.MIN_VALUE, 2e1f, 2e2f, 2e3f,
-                Float.MAX_VALUE, -Float.MIN_VALUE, -2e1f, -2e2f, -2e3f, -Float.MAX_VALUE);
+        testReadWrite(
+                nodeId,
+                EnumSet.of(DataType.FLOAT),
+                opcuaType,
+                0.0f,
+                Float.MIN_VALUE,
+                2e1f,
+                2e2f,
+                2e3f,
+                Float.MAX_VALUE,
+                -Float.MIN_VALUE,
+                -2e1f,
+                -2e2f,
+                -2e3f,
+                -Float.MAX_VALUE);
     }
 
     @Test
@@ -414,8 +462,21 @@ public class OpcUaDriverTest {
         final VariableType opcuaType = VariableType.DOUBLE;
 
         testRead(nodeId, 0.0d, EnumSet.of(DataType.DOUBLE));
-        testReadWrite(nodeId, EnumSet.of(DataType.DOUBLE), opcuaType, 0.0d, Double.MIN_VALUE, 2e1d, 2e2d, 2e3d,
-                Double.MAX_VALUE, -Double.MIN_VALUE, -2e1d, -2e2d, -2e3d, -Double.MAX_VALUE);
+        testReadWrite(
+                nodeId,
+                EnumSet.of(DataType.DOUBLE),
+                opcuaType,
+                0.0d,
+                Double.MIN_VALUE,
+                2e1d,
+                2e2d,
+                2e3d,
+                Double.MAX_VALUE,
+                -Double.MIN_VALUE,
+                -2e1d,
+                -2e2d,
+                -2e3d,
+                -Double.MAX_VALUE);
     }
 
     @Test
@@ -441,9 +502,27 @@ public class OpcUaDriverTest {
         final String nodeId = "ByteString";
         final VariableType opcuaType = VariableType.BYTE_STRING;
 
-        testRead(nodeId, TypedValues.newByteArrayValue(new byte[] { 0x01, 0x02, 0x03, 0x04 }));
-        testReadWrite(nodeId, TypedValues.newByteArrayValue(new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-                0x09, (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0xee, (byte) 0xff }), opcuaType);
+        testRead(nodeId, TypedValues.newByteArrayValue(new byte[] {0x01, 0x02, 0x03, 0x04}));
+        testReadWrite(
+                nodeId,
+                TypedValues.newByteArrayValue(new byte[] {
+                    0x01,
+                    0x02,
+                    0x03,
+                    0x04,
+                    0x05,
+                    0x06,
+                    0x07,
+                    0x08,
+                    0x09,
+                    (byte) 0xaa,
+                    (byte) 0xbb,
+                    (byte) 0xcc,
+                    (byte) 0xdd,
+                    (byte) 0xee,
+                    (byte) 0xff
+                }),
+                opcuaType);
     }
 
     @Test
@@ -451,9 +530,27 @@ public class OpcUaDriverTest {
         final String nodeId = "ByteArray";
         final VariableType opcuaType = VariableType.BYTE_ARRAY;
 
-        testRead(nodeId, TypedValues.newByteArrayValue(new byte[] { 0x00, 0x00, 0x00, 0x00 }));
-        testReadWrite(nodeId, TypedValues.newByteArrayValue(new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-                0x09, (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0xee, (byte) 0xff }), opcuaType);
+        testRead(nodeId, TypedValues.newByteArrayValue(new byte[] {0x00, 0x00, 0x00, 0x00}));
+        testReadWrite(
+                nodeId,
+                TypedValues.newByteArrayValue(new byte[] {
+                    0x01,
+                    0x02,
+                    0x03,
+                    0x04,
+                    0x05,
+                    0x06,
+                    0x07,
+                    0x08,
+                    0x09,
+                    (byte) 0xaa,
+                    (byte) 0xbb,
+                    (byte) 0xcc,
+                    (byte) 0xdd,
+                    (byte) 0xee,
+                    (byte) 0xff
+                }),
+                opcuaType);
     }
 
     @Test
@@ -461,9 +558,27 @@ public class OpcUaDriverTest {
         final String nodeId = "SByteArray";
         final VariableType opcuaType = VariableType.SBYTE_ARRAY;
 
-        testRead(nodeId, TypedValues.newByteArrayValue(new byte[] { 0x00, 0x00, 0x00, 0x00 }));
-        testReadWrite(nodeId, TypedValues.newByteArrayValue(new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-                0x09, (byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0xee, (byte) 0xff }), opcuaType);
+        testRead(nodeId, TypedValues.newByteArrayValue(new byte[] {0x00, 0x00, 0x00, 0x00}));
+        testReadWrite(
+                nodeId,
+                TypedValues.newByteArrayValue(new byte[] {
+                    0x01,
+                    0x02,
+                    0x03,
+                    0x04,
+                    0x05,
+                    0x06,
+                    0x07,
+                    0x08,
+                    0x09,
+                    (byte) 0xaa,
+                    (byte) 0xbb,
+                    (byte) 0xcc,
+                    (byte) 0xdd,
+                    (byte) 0xee,
+                    (byte) 0xff
+                }),
+                opcuaType);
     }
 
     @Test
@@ -495,5 +610,4 @@ public class OpcUaDriverTest {
     protected void unbindDriver(Driver driver) {
         OpcUaDriverTest.driver = null;
     }
-
 }

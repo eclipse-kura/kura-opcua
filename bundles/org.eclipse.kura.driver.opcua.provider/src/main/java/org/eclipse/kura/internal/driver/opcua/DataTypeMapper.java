@@ -1,19 +1,18 @@
 /**
  * Copyright (c) 2017, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
 package org.eclipse.kura.internal.driver.opcua;
 
 import java.util.Arrays;
-
 import org.eclipse.kura.type.DataType;
 import org.eclipse.kura.type.TypedValue;
 import org.eclipse.kura.type.TypedValues;
@@ -27,8 +26,7 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.UShort;
 
 public final class DataTypeMapper {
 
-    private DataTypeMapper() {
-    }
+    private DataTypeMapper() {}
 
     private static Variant mapByteArray(final byte[] javaValue, final VariableType opcuaType) {
         if (opcuaType == VariableType.BYTE_STRING) {
@@ -140,31 +138,31 @@ public final class DataTypeMapper {
 
     public static TypedValue<?> map(final Object value, final DataType targetType) {
         switch (targetType) {
-        case LONG:
-            return TypedValues.newLongValue(Long.parseLong(value.toString()));
-        case FLOAT:
-            return TypedValues.newFloatValue(Float.parseFloat(value.toString()));
-        case DOUBLE:
-            return TypedValues.newDoubleValue(Double.parseDouble(value.toString()));
-        case INTEGER:
-            return TypedValues.newIntegerValue(Integer.parseInt(value.toString()));
-        case BOOLEAN:
-            return TypedValues.newBooleanValue(Boolean.parseBoolean(value.toString()));
-        case STRING:
-            if (value instanceof LocalizedText) {
-                final LocalizedText text = (LocalizedText) value;
-                return TypedValues.newStringValue(text.getText());
-            } else {
-                if (value.getClass().isArray()) {
-                    return TypedValues.newStringValue(Arrays.deepToString((Object[]) value));
+            case LONG:
+                return TypedValues.newLongValue(Long.parseLong(value.toString()));
+            case FLOAT:
+                return TypedValues.newFloatValue(Float.parseFloat(value.toString()));
+            case DOUBLE:
+                return TypedValues.newDoubleValue(Double.parseDouble(value.toString()));
+            case INTEGER:
+                return TypedValues.newIntegerValue(Integer.parseInt(value.toString()));
+            case BOOLEAN:
+                return TypedValues.newBooleanValue(Boolean.parseBoolean(value.toString()));
+            case STRING:
+                if (value instanceof LocalizedText) {
+                    final LocalizedText text = (LocalizedText) value;
+                    return TypedValues.newStringValue(text.getText());
                 } else {
-                    return TypedValues.newStringValue(value.toString());
+                    if (value.getClass().isArray()) {
+                        return TypedValues.newStringValue(Arrays.deepToString((Object[]) value));
+                    } else {
+                        return TypedValues.newStringValue(value.toString());
+                    }
                 }
-            }
-        case BYTE_ARRAY:
-            return TypedValues.newByteArrayValue(toByteArray(value));
-        default:
-            throw new IllegalArgumentException();
+            case BYTE_ARRAY:
+                return TypedValues.newByteArrayValue(toByteArray(value));
+            default:
+                throw new IllegalArgumentException();
         }
     }
 }

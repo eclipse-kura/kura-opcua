@@ -28,7 +28,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import org.eclipse.milo.opcua.stack.client.security.ClientCertificateValidator;
 import org.eclipse.milo.opcua.stack.client.security.DefaultClientCertificateValidator;
 import org.eclipse.milo.opcua.stack.core.UaException;
@@ -36,16 +35,20 @@ import org.eclipse.milo.opcua.stack.core.util.validation.ValidationCheck;
 
 public class KeyStoreLoader {
 
-    private static final Set<ValidationCheck> OPTIONAL_CHECKS = EnumSet.of(ValidationCheck.APPLICATION_URI,
-            ValidationCheck.VALIDITY);
+    private static final Set<ValidationCheck> OPTIONAL_CHECKS =
+            EnumSet.of(ValidationCheck.APPLICATION_URI, ValidationCheck.VALIDITY);
 
     private final Optional<PrivateKeyEntry> privateKeyEntry;
     private final ClientCertificateValidator certificateValidator;
 
-    public KeyStoreLoader(final String keyStorePath, final String keyStoreType,
-            final char[] keyStorePassword, final String clientAlias, final boolean authenticateServer)
+    public KeyStoreLoader(
+            final String keyStorePath,
+            final String keyStoreType,
+            final char[] keyStorePassword,
+            final String clientAlias,
+            final boolean authenticateServer)
             throws NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException, CertificateException,
-            IOException {
+                    IOException {
 
         final KeyStore keyStore = KeyStore.getInstance(keyStoreType);
         keyStore.load(Files.newInputStream(Paths.get(keyStorePath)), keyStorePassword);
@@ -73,8 +76,8 @@ public class KeyStoreLoader {
                 }
             };
         } else {
-            this.certificateValidator = new DefaultClientCertificateValidator(new TrustListManagerImpl(keyStore),
-                    OPTIONAL_CHECKS);
+            this.certificateValidator =
+                    new DefaultClientCertificateValidator(new TrustListManagerImpl(keyStore), OPTIONAL_CHECKS);
         }
     }
 
@@ -85,5 +88,4 @@ public class KeyStoreLoader {
     public ClientCertificateValidator getCertificateValidator() {
         return certificateValidator;
     }
-
 }

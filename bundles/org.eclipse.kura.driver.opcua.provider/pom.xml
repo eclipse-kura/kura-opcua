@@ -12,10 +12,7 @@
      Eurotech
      Amit Kumar Mondal
 -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -40,8 +37,7 @@
         <com.digitalpetri.fsm.strict-machine.version>0.7</com.digitalpetri.fsm.strict-machine.version>
         <com.google.guava.failureaccess.version>1.0</com.google.guava.failureaccess.version>
         <org.bouncycastle.version>1.86</org.bouncycastle.version>
-        <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.basedir}/../test/org.eclipse.kura.driver.opcua.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../test/org.eclipse.kura.driver.opcua.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <build>
@@ -52,6 +48,9 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
                         <phase>generate-sources</phase>
                         <configuration>
                             <outputDirectory>${project.basedir}/lib</outputDirectory>
@@ -184,9 +183,6 @@
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>

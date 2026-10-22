@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2023 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -39,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.configuration.ConfigurationService;
 import org.eclipse.kura.core.testutil.service.ServiceUtil;
@@ -181,8 +180,8 @@ public class CertificateAuthTest {
     }
 
     private void givenServer() throws UaException, IOException {
-        final ServerCertificateValidator certificateValidator = new DefaultServerCertificateValidator(
-                serverTrustListManager);
+        final ServerCertificateValidator certificateValidator =
+                new DefaultServerCertificateValidator(serverTrustListManager);
         final CertificateManager certificateManager = new DefaultCertificateManager(serverKeyPair, serverCertificate);
 
         final EndpointConfiguration securedEndpoint = EndpointConfiguration.newBuilder()
@@ -210,10 +209,13 @@ public class CertificateAuthTest {
 
         logger.info("starting test server with endpoint {}", securedEndpoint.getEndpointUrl());
 
-        OpcUaServerConfig config = new OpcUaServerConfigBuilder().setApplicationUri(serverApplicationUri)
-                .setApplicationName(LocalizedText.english("opcsvr")).setCertificateValidator(certificateValidator)
+        OpcUaServerConfig config = new OpcUaServerConfigBuilder()
+                .setApplicationUri(serverApplicationUri)
+                .setApplicationName(LocalizedText.english("opcsvr"))
+                .setCertificateValidator(certificateValidator)
                 .setCertificateManager(certificateManager)
-                .setEndpoints(Arrays.asList(securedEndpoint, discoveryEndpoint).stream().collect(Collectors.toSet()))
+                .setEndpoints(Arrays.asList(securedEndpoint, discoveryEndpoint).stream()
+                        .collect(Collectors.toSet()))
                 .build();
 
         server = new OpcUaServer(config);
@@ -242,13 +244,16 @@ public class CertificateAuthTest {
             throws InterruptedException, ExecutionException, TimeoutException, KuraException, InvalidSyntaxException {
         final ConfigurationService configurationService = trackService(ConfigurationService.class);
 
-        driver = ServiceUtil
-                .createFactoryConfiguration(configurationService, Driver.class, driverPid,
-                        "org.eclipse.kura.driver.opcua", Collections.emptyMap())
+        driver = ServiceUtil.createFactoryConfiguration(
+                        configurationService,
+                        Driver.class,
+                        driverPid,
+                        "org.eclipse.kura.driver.opcua",
+                        Collections.emptyMap())
                 .get(30, TimeUnit.SECONDS);
 
-        ServiceUtil.updateComponentConfiguration(configurationService, driverPid, driverConfiguration).get(30,
-                TimeUnit.SECONDS);
+        ServiceUtil.updateComponentConfiguration(configurationService, driverPid, driverConfiguration)
+                .get(30, TimeUnit.SECONDS);
     }
 
     private void givenServerKeyStore() throws Exception {
@@ -258,13 +263,13 @@ public class CertificateAuthTest {
     private void givenServerKeyStore(final String applicationUri) throws Exception {
         serverKeyPair = SelfSignedCertificateGenerator.generateRsaKeyPair(2048);
 
-        final SelfSignedCertificateBuilder builder = new SelfSignedCertificateBuilder(serverKeyPair,
-                testSelfSignedCertificateGenerator())
-                        .setCommonName("Test server " + currentPort)
-                        .setOrganization("Eclipse")
-                        .setOrganizationalUnit("dev")
-                        .setCountryCode("US")
-                        .setApplicationUri(applicationUri);
+        final SelfSignedCertificateBuilder builder = new SelfSignedCertificateBuilder(
+                        serverKeyPair, testSelfSignedCertificateGenerator())
+                .setCommonName("Test server " + currentPort)
+                .setOrganization("Eclipse")
+                .setOrganizationalUnit("dev")
+                .setCountryCode("US")
+                .setApplicationUri(applicationUri);
 
         serverCertificate = builder.build();
     }
@@ -272,21 +277,22 @@ public class CertificateAuthTest {
     private void givenDriverKeyStore() throws Exception {
         final KeyPair clientKeyPair = SelfSignedCertificateGenerator.generateRsaKeyPair(2048);
 
-        final SelfSignedCertificateBuilder builder = new SelfSignedCertificateBuilder(clientKeyPair,
-                testSelfSignedCertificateGenerator())
-                        .setCommonName("Test client " + currentPort)
-                        .setOrganization("Eclipse")
-                        .setOrganizationalUnit("dev")
-                        .setCountryCode("US")
-                        .setApplicationUri(clientApplicationUri);
+        final SelfSignedCertificateBuilder builder = new SelfSignedCertificateBuilder(
+                        clientKeyPair, testSelfSignedCertificateGenerator())
+                .setCommonName("Test client " + currentPort)
+                .setOrganization("Eclipse")
+                .setOrganizationalUnit("dev")
+                .setCountryCode("US")
+                .setApplicationUri(clientApplicationUri);
 
         clientCertificate = builder.build();
 
         final KeyStore store = KeyStore.getInstance("JKS");
         store.load(null);
 
-        store.setEntry(TEST_CLIENT_KEYSTORE_ALIAS,
-                new KeyStore.PrivateKeyEntry(clientKeyPair.getPrivate(), new Certificate[] { clientCertificate }),
+        store.setEntry(
+                TEST_CLIENT_KEYSTORE_ALIAS,
+                new KeyStore.PrivateKeyEntry(clientKeyPair.getPrivate(), new Certificate[] {clientCertificate}),
                 new KeyStore.PasswordProtection(TEST_CLIENT_KEYSTORE_PASSWORD.toCharArray()));
 
         try (final FileOutputStream out = new FileOutputStream(clientKeystorePath.toFile())) {
@@ -294,8 +300,9 @@ public class CertificateAuthTest {
         }
     }
 
-    private void givenDriverTrustingServerCert() throws KeyStoreException, FileNotFoundException, IOException,
-            NoSuchAlgorithmException, CertificateException {
+    private void givenDriverTrustingServerCert()
+            throws KeyStoreException, FileNotFoundException, IOException, NoSuchAlgorithmException,
+                    CertificateException {
 
         final KeyStore store = KeyStore.getInstance("JKS");
 
@@ -350,9 +357,10 @@ public class CertificateAuthTest {
         driverConfiguration.put("request.timeout", 1500);
         driverConfiguration.put("session.timeout", 2000);
 
-        driverConfiguration.put("keystore.password",
-                new String(cryptoService.encryptAes(TEST_CLIENT_KEYSTORE_PASSWORD.toCharArray())));
-        driverConfiguration.put("certificate.location", clientKeystorePath.toFile().getAbsolutePath());
+        driverConfiguration.put(
+                "keystore.password", new String(cryptoService.encryptAes(TEST_CLIENT_KEYSTORE_PASSWORD.toCharArray())));
+        driverConfiguration.put(
+                "certificate.location", clientKeystorePath.toFile().getAbsolutePath());
         driverConfiguration.put("keystore.type", "JKS");
         driverConfiguration.put("keystore.client.alias", TEST_CLIENT_KEYSTORE_ALIAS);
 
@@ -367,14 +375,12 @@ public class CertificateAuthTest {
             protected void addBasicConstraints(
                     org.bouncycastle.cert.X509v3CertificateBuilder certificateBuilder,
                     org.bouncycastle.asn1.x509.BasicConstraints basicConstraints)
-                    throws org.bouncycastle.cert.CertIOException {
-            }
+                    throws org.bouncycastle.cert.CertIOException {}
         };
     }
 
     private <T> T trackService(final Class<T> classz)
             throws InterruptedException, ExecutionException, TimeoutException {
-        return ServiceUtil
-                .trackService(classz, Optional.empty()).get(30, TimeUnit.SECONDS);
+        return ServiceUtil.trackService(classz, Optional.empty()).get(30, TimeUnit.SECONDS);
     }
 }

@@ -1,16 +1,15 @@
 /**
  * Copyright (c) 2019, 2023 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
-
 package org.eclipse.kura.internal.driver.opcua;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.BiConsumer;
-
 import org.eclipse.kura.channel.ChannelRecord;
 import org.eclipse.kura.channel.listener.ChannelListener;
 import org.eclipse.kura.internal.driver.opcua.request.ListenParams;
@@ -51,7 +49,10 @@ public class SubtreeSubscriptionManager implements ListenerRegistrationRegistry.
     private final Set<PendingVisit> pendingVisits = new CopyOnWriteArraySet<>();
     private boolean isClosed;
 
-    public SubtreeSubscriptionManager(final OpcUaOptions options, final OpcUaClient client, final AsyncTaskQueue queue,
+    public SubtreeSubscriptionManager(
+            final OpcUaOptions options,
+            final OpcUaClient client,
+            final AsyncTaskQueue queue,
             final ListenerRegistrationRegistry registrations) {
         this.client = client;
         this.registrations = registrations;
@@ -61,13 +62,15 @@ public class SubtreeSubscriptionManager implements ListenerRegistrationRegistry.
 
         synchronized (this) {
             registrations.addRegistrationItemListener(this);
-            registrations.getRegisteredListeners().values().stream().flatMap(Collection::stream).forEach(
-                    req -> registerChannelListener((TreeListenParams) req.getParameters(), req.getChannelListener()));
+            registrations.getRegisteredListeners().values().stream()
+                    .flatMap(Collection::stream)
+                    .forEach(req ->
+                            registerChannelListener((TreeListenParams) req.getParameters(), req.getChannelListener()));
         }
     }
 
-    public synchronized void registerChannelListener(final TreeListenParams subtreeParams,
-            final ChannelListener listener) {
+    public synchronized void registerChannelListener(
+            final TreeListenParams subtreeParams, final ChannelListener listener) {
         if (isClosed()) {
             throw new IllegalStateException("already closed");
         }
@@ -75,22 +78,20 @@ public class SubtreeSubscriptionManager implements ListenerRegistrationRegistry.
         final List<ListenRequest> requests = new ArrayList<>();
 
         final TreeVisit visit = visitSubtree(subtreeParams, (path, nodeId) -> {
-
             if (logger.isTraceEnabled()) {
                 logger.trace("found variable node: {} {}", path, nodeId);
             }
 
-            final ReadValueId readValueId = new ReadValueId(nodeId, subtreeParams.getReadValueId().getAttributeId(),
-                    null, null);
+            final ReadValueId readValueId =
+                    new ReadValueId(nodeId, subtreeParams.getReadValueId().getAttributeId(), null, null);
 
             final ListenParams nodeParams = new SubtreeNodeListenParams(readValueId, subtreeParams);
 
-            final String channelName = this.channelNameFormat == ChannelNameFormat.BROWSE_PATH ? path
-                    : nodeId.toParseableString();
+            final String channelName =
+                    this.channelNameFormat == ChannelNameFormat.BROWSE_PATH ? path : nodeId.toParseableString();
 
-            requests.add(new ListenRequest(nodeParams, ChannelRecord.createReadRecord(channelName, DataType.STRING),
-                    listener));
-
+            requests.add(new ListenRequest(
+                    nodeParams, ChannelRecord.createReadRecord(channelName, DataType.STRING), listener));
         });
 
         this.pendingVisits.add(new PendingVisit(visit, listener));
@@ -151,9 +152,9 @@ public class SubtreeSubscriptionManager implements ListenerRegistrationRegistry.
         return this.isClosed;
     }
 
-    private TreeVisit visitSubtree(final SingleNodeListenParams rootParams,
-            final BiConsumer<String, NodeId> visitor) {
-        final TreeVisit visit = new TreeVisit(this.client, rootParams.getReadValueId().getNodeId(), visitor);
+    private TreeVisit visitSubtree(final SingleNodeListenParams rootParams, final BiConsumer<String, NodeId> visitor) {
+        final TreeVisit visit =
+                new TreeVisit(this.client, rootParams.getReadValueId().getNodeId(), visitor);
 
         visit.run();
 
@@ -185,5 +186,4 @@ public class SubtreeSubscriptionManager implements ListenerRegistrationRegistry.
     public void onListenerUnregistered(ChannelListener listener) {
         unregisterChannelListener(listener);
     }
-
 }

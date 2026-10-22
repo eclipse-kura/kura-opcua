@@ -1,16 +1,15 @@
 /**
  * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
-
 package org.eclipse.kura.internal.driver.opcua;
 
 import java.util.Collection;
@@ -23,7 +22,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
-
 import org.eclipse.kura.channel.ChannelRecord;
 import org.eclipse.kura.channel.listener.ChannelEvent;
 import org.eclipse.kura.channel.listener.ChannelListener;
@@ -87,8 +85,11 @@ public class ListenerRegistrationRegistry {
             this.itemListeners.forEach(l -> l.onListenerRegistered(request));
             return true;
         } else {
-            if (listeners.stream().anyMatch(req -> req.getChannelListener() == request.getChannelListener()
-                    && Objects.equals(req.getRecord().getChannelName(), request.getRecord().getChannelName()))) {
+            if (listeners.stream()
+                    .anyMatch(req -> req.getChannelListener() == request.getChannelListener()
+                            && Objects.equals(
+                                    req.getRecord().getChannelName(),
+                                    request.getRecord().getChannelName()))) {
                 return false;
             }
             listeners.add(request);
@@ -112,7 +113,9 @@ public class ListenerRegistrationRegistry {
         this.itemListeners.forEach(Listener::onRegistrationsChanged);
     }
 
-    public synchronized void computeDifferences(final Set<ListenParams> other, final Consumer<ListenParams> toBeCreated,
+    public synchronized void computeDifferences(
+            final Set<ListenParams> other,
+            final Consumer<ListenParams> toBeCreated,
             final Consumer<ListenParams> toBeDeleted) {
         final Set<ListenParams> currentItems = this.registeredListeners.keySet();
         for (final ListenParams params : currentItems) {
@@ -171,8 +174,8 @@ public class ListenerRegistrationRegistry {
             synchronized (ListenerRegistrationRegistry.this) {
                 if (ListenerRegistrationRegistry.this.state != this.currentState) {
                     this.currentState = ListenerRegistrationRegistry.this.state;
-                    this.channelListeners = Optional
-                            .ofNullable(ListenerRegistrationRegistry.this.registeredListeners.get(this.params));
+                    this.channelListeners =
+                            Optional.ofNullable(ListenerRegistrationRegistry.this.registeredListeners.get(this.params));
                 }
             }
         }
