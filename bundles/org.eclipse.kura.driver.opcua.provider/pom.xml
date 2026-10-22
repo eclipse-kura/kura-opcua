@@ -37,7 +37,7 @@
         <com.digitalpetri.fsm.strict-machine.version>0.7</com.digitalpetri.fsm.strict-machine.version>
         <com.google.guava.failureaccess.version>1.0</com.google.guava.failureaccess.version>
         <org.bouncycastle.version>1.86</org.bouncycastle.version>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../test/org.eclipse.kura.driver.opcua.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../../tests/org.eclipse.kura.driver.opcua.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <build>
