@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2017, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  ******************************************************************************/
@@ -27,7 +27,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.channel.ChannelFlag;
 import org.eclipse.kura.channel.ChannelRecord;
@@ -137,7 +136,6 @@ public class OpcUaDriverTest {
         } catch (Exception e) {
             // ok
         }
-
     }
 
     @Test
@@ -155,8 +153,12 @@ public class OpcUaDriverTest {
 
         OpcUaClient clientMock = createClientMock();
 
-        ConnectionManager manager = new ConnectionManager(clientMock, options, (a, b) -> {
-        }, new ListenerRegistrationRegistry(), new ListenerRegistrationRegistry());
+        ConnectionManager manager = new ConnectionManager(
+                clientMock,
+                options,
+                (a, b) -> {},
+                new ListenerRegistrationRegistry(),
+                new ListenerRegistrationRegistry());
 
         TestUtil.setFieldValue(svc, "connectionManager", Optional.of(manager));
 
@@ -204,8 +206,9 @@ public class OpcUaDriverTest {
     }
 
     @Test
-    public void testReadInvalidReadResult() throws ConnectionException, NoSuchFieldException, InterruptedException,
-            ExecutionException, TimeoutException {
+    public void testReadInvalidReadResult()
+            throws ConnectionException, NoSuchFieldException, InterruptedException, ExecutionException,
+                    TimeoutException {
         // test read where the successful read result renders empty typed value due to
         // format exception
 
@@ -229,8 +232,9 @@ public class OpcUaDriverTest {
     }
 
     @Test
-    public void testRead() throws ConnectionException, NoSuchFieldException, InterruptedException, ExecutionException,
-            TimeoutException {
+    public void testRead()
+            throws ConnectionException, NoSuchFieldException, InterruptedException, ExecutionException,
+                    TimeoutException {
         // test read
 
         OpcUaDriver svc = new OpcUaDriver();
@@ -267,8 +271,12 @@ public class OpcUaDriverTest {
 
         OpcUaClient clientMock = createClientMock();
 
-        ConnectionManager manager = new ConnectionManager(clientMock, options, (a, b) -> {
-        }, new ListenerRegistrationRegistry(), new ListenerRegistrationRegistry());
+        ConnectionManager manager = new ConnectionManager(
+                clientMock,
+                options,
+                (a, b) -> {},
+                new ListenerRegistrationRegistry(),
+                new ListenerRegistrationRegistry());
 
         TestUtil.setFieldValue(svc, "connectionManager", Optional.of(manager));
 
@@ -276,7 +284,7 @@ public class OpcUaDriverTest {
         DataValue value = new DataValue(variant, StatusCode.GOOD);
 
         ReadResponse response = mock(ReadResponse.class);
-        when(response.getResults()).thenReturn(new DataValue[] { value });
+        when(response.getResults()).thenReturn(new DataValue[] {value});
 
         CompletableFuture<ReadResponse> futureValue = mock(CompletableFuture.class);
         when(futureValue.get(1000, TimeUnit.MILLISECONDS)).thenReturn(response);
@@ -286,8 +294,9 @@ public class OpcUaDriverTest {
     }
 
     @Test
-    public void testPrepareRead() throws NoSuchFieldException, ConnectionException, KuraException, InterruptedException,
-            ExecutionException, TimeoutException {
+    public void testPrepareRead()
+            throws NoSuchFieldException, ConnectionException, KuraException, InterruptedException, ExecutionException,
+                    TimeoutException {
         // test prepareRead
 
         OpcUaDriver svc = new OpcUaDriver();
@@ -320,5 +329,4 @@ public class OpcUaDriverTest {
         assertEquals(ChannelFlag.SUCCESS, record.getChannelStatus().getChannelFlag());
         assertEquals(123, record.getValue().getValue());
     }
-
 }

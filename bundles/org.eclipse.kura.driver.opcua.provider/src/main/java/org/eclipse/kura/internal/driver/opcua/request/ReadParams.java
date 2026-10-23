@@ -1,22 +1,20 @@
 /**
- * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
-
 package org.eclipse.kura.internal.driver.opcua.request;
 
 import static org.eclipse.kura.internal.driver.opcua.Utils.tryExtract;
 
 import java.util.Map;
-
 import org.eclipse.kura.internal.driver.opcua.NodeIdType;
 import org.eclipse.kura.internal.driver.opcua.OpcUaChannelDescriptor;
 import org.eclipse.kura.internal.driver.opcua.Utils;
@@ -33,17 +31,20 @@ public class ReadParams {
     }
 
     public ReadParams(final Map<String, Object> channelConfig) {
-        final int nodeNamespaceIndex = Utils.tryExtract(channelConfig, OpcUaChannelDescriptor::getNodeNamespaceIndex,
+        final int nodeNamespaceIndex = Utils.tryExtract(
+                channelConfig,
+                OpcUaChannelDescriptor::getNodeNamespaceIndex,
                 "Error while retrieving Node Namespace index");
-        final NodeIdType nodeIdType = tryExtract(channelConfig, OpcUaChannelDescriptor::getNodeIdType,
-                "Error while retrieving Node ID type");
+        final NodeIdType nodeIdType =
+                tryExtract(channelConfig, OpcUaChannelDescriptor::getNodeIdType, "Error while retrieving Node ID type");
 
-        final NodeId nodeId = tryExtract(channelConfig,
+        final NodeId nodeId = tryExtract(
+                channelConfig,
                 config -> OpcUaChannelDescriptor.getNodeId(config, nodeNamespaceIndex, nodeIdType),
                 "Error while retrieving Node ID");
 
-        final AttributeId attributeId = tryExtract(channelConfig, OpcUaChannelDescriptor::getAttributeId,
-                "Error while retrieving Attribute ID");
+        final AttributeId attributeId = tryExtract(
+                channelConfig, OpcUaChannelDescriptor::getAttributeId, "Error while retrieving Attribute ID");
 
         this.readValueId = new ReadValueId(nodeId, attributeId.uid(), null, null);
     }
@@ -77,5 +78,4 @@ public class ReadParams {
         return other.readValueId.getAttributeId() == this.readValueId.getAttributeId()
                 && other.readValueId.getNodeId().equals(this.readValueId.getNodeId());
     }
-
 }

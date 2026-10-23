@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2016, 2023 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2016, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *  Amit Kumar Mondal
@@ -21,7 +21,6 @@ import static org.eclipse.milo.opcua.stack.core.security.SecurityPolicy.Basic256
 import static org.eclipse.milo.opcua.stack.core.security.SecurityPolicy.None;
 
 import java.util.Map;
-
 import org.eclipse.kura.KuraException;
 import org.eclipse.kura.configuration.Password;
 import org.eclipse.kura.crypto.CryptoService;
@@ -257,7 +256,8 @@ final class OpcUaOptions {
         final Object keystorePass = this.properties.get(KEYSTORE_PASSWORD);
         if (nonNull(keystorePass) && keystorePass instanceof String) {
             try {
-                decryptedPassword = new Password(this.cryptoService.decryptAes(keystorePass.toString().toCharArray()));
+                decryptedPassword = new Password(
+                        this.cryptoService.decryptAes(keystorePass.toString().toCharArray()));
                 password = new String(decryptedPassword.getPassword());
             } catch (final KuraException e) {
                 logger.error(e.getMessage(), e);
@@ -300,7 +300,8 @@ final class OpcUaOptions {
         String password = null;
         if (nonNull(pass) && pass instanceof String) {
             try {
-                decryptedPassword = new Password(this.cryptoService.decryptAes(pass.toString().toCharArray()));
+                decryptedPassword = new Password(
+                        this.cryptoService.decryptAes(pass.toString().toCharArray()));
                 password = new String(decryptedPassword.getPassword());
             } catch (final KuraException e) {
                 logger.error(e.getMessage(), e);

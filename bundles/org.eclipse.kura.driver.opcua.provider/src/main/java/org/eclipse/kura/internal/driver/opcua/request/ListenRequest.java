@@ -1,20 +1,18 @@
 /**
- * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
-
 package org.eclipse.kura.internal.driver.opcua.request;
 
 import java.util.Map;
-
 import org.eclipse.kura.channel.ChannelRecord;
 import org.eclipse.kura.channel.listener.ChannelListener;
 import org.eclipse.kura.internal.driver.opcua.OpcUaChannelDescriptor;
@@ -30,14 +28,17 @@ public class ListenRequest extends Request<ListenParams> {
         this.listener = listener;
     }
 
-    public static ListenRequest extractListenRequest(final Map<String, Object> channelConfig,
-            final ChannelListener listener) {
-        final String channelName = Utils.tryExtract(channelConfig, config -> (String) config.get("+name"),
-                "Error while retrieving Channel Name");
-        final DataType valueType = Utils.tryExtract(channelConfig,
-                config -> DataType.valueOf((String) config.get("+value.type")), "Error while retrieving value type");
+    public static ListenRequest extractListenRequest(
+            final Map<String, Object> channelConfig, final ChannelListener listener) {
+        final String channelName = Utils.tryExtract(
+                channelConfig, config -> (String) config.get("+name"), "Error while retrieving Channel Name");
+        final DataType valueType = Utils.tryExtract(
+                channelConfig,
+                config -> DataType.valueOf((String) config.get("+value.type")),
+                "Error while retrieving value type");
 
-        final boolean subscribeToChildren = Utils.tryExtract(channelConfig,
+        final boolean subscribeToChildren = Utils.tryExtract(
+                channelConfig,
                 OpcUaChannelDescriptor::getSubscribeToChildren,
                 "Error while retrieving Subscribe to Children property");
 

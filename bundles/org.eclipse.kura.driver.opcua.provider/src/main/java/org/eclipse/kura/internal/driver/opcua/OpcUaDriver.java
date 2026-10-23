@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2016, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2016, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *  Amit Kumar Mondal
@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-
 import org.eclipse.kura.channel.ChannelRecord;
 import org.eclipse.kura.channel.listener.ChannelListener;
 import org.eclipse.kura.configuration.ConfigurableComponent;
@@ -98,8 +97,11 @@ public final class OpcUaDriver implements Driver, ConfigurableComponent {
         }
         this.connectAttempt++;
         final long currentConnectAttempt = this.connectAttempt;
-        final CompletableFuture<ConnectionManager> currentConnectTask = ConnectionManager.connect(this.options,
-                this::onFailure, this.nodeListeneresRegistrations, this.subtreeListenerRegistrations)
+        final CompletableFuture<ConnectionManager> currentConnectTask = ConnectionManager.connect(
+                        this.options,
+                        this::onFailure,
+                        this.nodeListeneresRegistrations,
+                        this.subtreeListenerRegistrations)
                 .thenApply(manager -> {
                     synchronized (this) {
                         if (this.connectAttempt != currentConnectAttempt) {

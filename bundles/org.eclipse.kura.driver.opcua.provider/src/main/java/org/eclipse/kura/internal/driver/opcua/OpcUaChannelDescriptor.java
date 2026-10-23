@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2016, 2022 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2016, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  *  Amit Kumar Mondal
@@ -17,7 +17,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import org.eclipse.kura.configuration.metatype.Option;
 import org.eclipse.kura.core.configuration.metatype.Tad;
 import org.eclipse.kura.core.configuration.metatype.Toption;
@@ -197,16 +196,17 @@ public final class OpcUaChannelDescriptor implements ChannelDescriptor {
     public static NodeId getNodeId(Map<String, Object> properties, int nodeNamespaceIndex, NodeIdType nodeIdType) {
         String nodeIdString = properties.get(NODE_ID_PROP_NAME).toString();
         switch (nodeIdType) {
-        case NUMERIC:
-            return new NodeId(nodeNamespaceIndex, UInteger.valueOf(nodeIdString));
-        case STRING:
-            return new NodeId(nodeNamespaceIndex, nodeIdString);
-        case GUID:
-            return new NodeId(nodeNamespaceIndex, UUID.fromString(nodeIdString));
-        case OPAQUE:
-            return new NodeId(nodeNamespaceIndex, ByteString.of(Base64.getDecoder().decode(nodeIdString)));
-        default:
-            throw new IllegalArgumentException();
+            case NUMERIC:
+                return new NodeId(nodeNamespaceIndex, UInteger.valueOf(nodeIdString));
+            case STRING:
+                return new NodeId(nodeNamespaceIndex, nodeIdString);
+            case GUID:
+                return new NodeId(nodeNamespaceIndex, UUID.fromString(nodeIdString));
+            case OPAQUE:
+                return new NodeId(
+                        nodeNamespaceIndex, ByteString.of(Base64.getDecoder().decode(nodeIdString)));
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
@@ -219,7 +219,8 @@ public final class OpcUaChannelDescriptor implements ChannelDescriptor {
     }
 
     public static double getSamplingInterval(Map<String, Object> properties) {
-        String samplingInterval = properties.get(LISTEN_SAMPLING_INTERVAL_PROP_NAME).toString();
+        String samplingInterval =
+                properties.get(LISTEN_SAMPLING_INTERVAL_PROP_NAME).toString();
         return Double.parseDouble(samplingInterval);
     }
 
@@ -234,7 +235,8 @@ public final class OpcUaChannelDescriptor implements ChannelDescriptor {
     }
 
     public static boolean getSubscribeToChildren(Map<String, Object> properties) {
-        String discardOldest = properties.get(LISTEN_SUBSCRIBE_TO_CHILDREN_PROP_NAME).toString();
+        String discardOldest =
+                properties.get(LISTEN_SUBSCRIBE_TO_CHILDREN_PROP_NAME).toString();
         return Boolean.valueOf(discardOldest);
     }
 }

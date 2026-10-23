@@ -1,16 +1,15 @@
 /**
- * Copyright (c) 2018, 2020 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2018, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
-
 package org.eclipse.kura.internal.driver.opcua;
 
 import static org.eclipse.kura.channel.ChannelFlag.FAILURE;
@@ -21,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
 import org.eclipse.kura.channel.ChannelFlag;
 import org.eclipse.kura.channel.ChannelRecord;
 import org.eclipse.kura.channel.ChannelStatus;
@@ -36,10 +34,11 @@ public final class Utils {
 
     private static final Logger logger = LoggerFactory.getLogger(OpcUaDriver.class);
 
-    private Utils() {
-    }
+    private Utils() {}
 
-    public static <T> T tryExtract(final Map<String, Object> properties, final Function<Map<String, Object>, T> func,
+    public static <T> T tryExtract(
+            final Map<String, Object> properties,
+            final Function<Map<String, Object>, T> func,
             final String errorMessage) {
         try {
             return func.apply(properties);
@@ -70,8 +69,8 @@ public final class Utils {
             record.setValue(DataTypeMapper.map(variant.getValue(), record.getValueType()));
             record.setChannelStatus(new ChannelStatus(ChannelFlag.SUCCESS));
         } catch (Exception e) {
-            record.setChannelStatus(new ChannelStatus(FAILURE,
-                    "Error while converting the retrieved value to the defined typed", null));
+            record.setChannelStatus(new ChannelStatus(
+                    FAILURE, "Error while converting the retrieved value to the defined typed", null));
         }
     }
 
@@ -119,8 +118,8 @@ public final class Utils {
         logger.debug("Server time not available, falling back to locally generated timestamp");
     }
 
-    public static void splitInMultipleRequests(final int itemsPerRequest, int totalItemCount,
-            final BiConsumer<Integer, Integer> consumer) {
+    public static void splitInMultipleRequests(
+            final int itemsPerRequest, int totalItemCount, final BiConsumer<Integer, Integer> consumer) {
         final int requestCount = totalItemCount / itemsPerRequest + (totalItemCount % itemsPerRequest == 0 ? 0 : 1);
 
         for (int i = 0; i < requestCount; i++) {

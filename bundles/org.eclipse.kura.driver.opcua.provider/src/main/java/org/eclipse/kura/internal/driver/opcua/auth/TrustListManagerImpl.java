@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 Eurotech and/or its affiliates and others
+ * Copyright (c) 2023, 2026 Eurotech and/or its affiliates and others
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,7 @@
  */
 package org.eclipse.kura.internal.driver.opcua.auth;
 
+import com.google.common.collect.ImmutableList;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.PublicKey;
@@ -21,13 +22,10 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.eclipse.milo.opcua.stack.core.security.TrustListManager;
 import org.eclipse.milo.opcua.stack.core.types.builtin.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.ImmutableList;
 
 public class TrustListManagerImpl implements TrustListManager {
 
@@ -67,7 +65,6 @@ public class TrustListManagerImpl implements TrustListManager {
 
         this.trustedCertificates.addAll(trustedCerts);
         this.issuerCertificates.addAll(issuerCerts);
-
     }
 
     private static boolean isSelfSigned(final X509Certificate cert) {
@@ -158,5 +155,4 @@ public class TrustListManagerImpl implements TrustListManager {
         this.trustedCrls.clear();
         this.trustedCrls.addAll(crls);
     }
-
 }

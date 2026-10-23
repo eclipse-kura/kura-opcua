@@ -1,16 +1,15 @@
 /**
- * Copyright (c) 2019, 2023 Eurotech and/or its affiliates and others
- * 
+ * Copyright (c) 2019, 2026 Eurotech and/or its affiliates and others
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Eurotech
  */
-
 package org.eclipse.kura.internal.driver.opcua;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.NamespaceTable;
@@ -49,9 +47,10 @@ class TreeVisit {
 
     private static final Logger logger = LoggerFactory.getLogger(TreeVisit.class);
     private static final int BROWSE_RESULT_MASK = BrowseResultMask.BrowseName.getValue()
-            | BrowseResultMask.TypeDefinition.getValue() | BrowseResultMask.NodeClass.getValue();
-    private static final ExpandedNodeId FOLDER_TYPE_EXPANDED_NODEID = new ExpandedNodeId(UShort.valueOf(0),
-            "http://opcfoundation.org/UA/", (UInteger) Identifiers.FolderType.getIdentifier());
+            | BrowseResultMask.TypeDefinition.getValue()
+            | BrowseResultMask.NodeClass.getValue();
+    private static final ExpandedNodeId FOLDER_TYPE_EXPANDED_NODEID = new ExpandedNodeId(
+            UShort.valueOf(0), "http://opcfoundation.org/UA/", (UInteger) Identifiers.FolderType.getIdentifier());
 
     private final NodeId rootId;
     private final BiConsumer<String, NodeId> visitor;
@@ -61,14 +60,14 @@ class TreeVisit {
 
     private volatile State state = State.PENDING;
 
-    public TreeVisit(final OpcUaClient client, final NodeId rootId,
-            final BiConsumer<String, NodeId> visitor) {
+    public TreeVisit(final OpcUaClient client, final NodeId rootId, final BiConsumer<String, NodeId> visitor) {
         this.rootId = rootId;
         this.visitor = visitor;
         this.client = client;
     }
 
-    private CompletableFuture<Void> visitRefs(final String rootPath, //
+    private CompletableFuture<Void> visitRefs(
+            final String rootPath, //
             final ReferenceDescription[] refs, //
             final ByteString continuationPoint, //
             final List<CompletableFuture<Void>> childrenVisits) {
@@ -89,7 +88,8 @@ class TreeVisit {
             if (logger.isDebugEnabled()) {
                 logger.debug("continuing to visit {}", rootPath);
             }
-            return this.client.browseNext(false, continuationPoint) //
+            return this.client
+                    .browseNext(false, continuationPoint) //
                     .thenCompose(r -> visitRefs(rootPath, r.getReferences(), r.getContinuationPoint(), childrenVisits));
         } else {
             if (logger.isDebugEnabled()) {
@@ -99,8 +99,8 @@ class TreeVisit {
         }
     }
 
-    private void processRef(final String rootPath, final List<CompletableFuture<Void>> childrenVisits,
-            final ReferenceDescription ref) {
+    private void processRef(
+            final String rootPath, final List<CompletableFuture<Void>> childrenVisits, final ReferenceDescription ref) {
         final String path = rootPath + '/' + ref.getBrowseName().getName();
 
         final Optional<NodeId> nodeId = ref.getNodeId().toNodeId(NAMESPACE_TABLE);
@@ -128,15 +128,21 @@ class TreeVisit {
             return CompletableFuture.completedFuture(null);
         }
 
-        final BrowseDescription browse = new BrowseDescription(root, BrowseDirection.Forward, Identifiers.References,
-                true, UInteger.valueOf(NodeClass.Object.getValue() | NodeClass.Variable.getValue()),
+        final BrowseDescription browse = new BrowseDescription(
+                root,
+                BrowseDirection.Forward,
+                Identifiers.References,
+                true,
+                UInteger.valueOf(NodeClass.Object.getValue() | NodeClass.Variable.getValue()),
                 UInteger.valueOf(BROWSE_RESULT_MASK));
 
         final List<CompletableFuture<Void>> childrenVisits = new ArrayList<>();
 
         return this.client
-                .browse(new ViewDescription(NodeId.NULL_VALUE, DateTime.MIN_VALUE, UInteger.valueOf(0)),
-                        UInteger.valueOf(50), Collections.singletonList(browse)) //
+                .browse(
+                        new ViewDescription(NodeId.NULL_VALUE, DateTime.MIN_VALUE, UInteger.valueOf(0)),
+                        UInteger.valueOf(50),
+                        Collections.singletonList(browse)) //
                 .thenApply(r -> r.getResults()[0]) //
                 .thenCompose(r -> visitRefs(rootPath, r.getReferences(), r.getContinuationPoint(), childrenVisits));
     }
